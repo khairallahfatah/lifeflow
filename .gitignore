@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Production build output
+dist/
+
+# System and temporary files
+*.log
+.DS_Store
+Thumbs.db
+*.zip
+
+# Local IDE & Gemini
+.gemini/
+.vscode/
+
+# Local backup files
+*.backup.*

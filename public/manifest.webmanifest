@@ -1,0 +1,93 @@
+{
+  "name": "LifeFlow — نظام إدارة الحياة الشخصية",
+  "short_name": "LifeFlow",
+  "description": "نظام شامل لإدارة الحياة والإنتاجية، محلي بالكامل وآمن، يعمل دون اتصال بالإنترنت.",
+  "id": "./?source=pwa",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "dir": "rtl",
+  "lang": "ar",
+  "background_color": "#f3f6f5",
+  "theme_color": "#0d9488",
+  "categories": [
+    "productivity",
+    "lifestyle",
+    "finance"
+  ],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "إضافة مهمة جديدة",
+      "short_name": "مهمة جديدة",
+      "description": "إضافة مهمة جديدة إلى قائمة المهام فوراً",
+      "url": "./#action=new-task",
+      "icons": [
+        {
+          "src": "./icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "تسجيل مصروف",
+      "short_name": "مصروف جديد",
+      "description": "تسجيل مصروف مالي سريع",
+      "url": "./#action=new-expense",
+      "icons": [
+        {
+          "src": "./icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "التركيز اليومي (يومي)",
+      "short_name": "يومي",
+      "description": "عرض مهام اليوم وجدول الأعمال",
+      "url": "./#view=myday",
+      "icons": [
+        {
+          "src": "./icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "متتبع العادات",
+      "short_name": "العادات",
+      "description": "تسجيل إنجاز العادات اليومية",
+      "url": "./#view=habits",
+      "icons": [
+        {
+          "src": "./icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}
