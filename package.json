@@ -11,6 +11,8 @@
     "test": "node test-suite.js"
   },
   "devDependencies": {
-    "vite": "^6.0.0"
+    "@cloudflare/workerd-windows-64": "^1.20261027.1",
+    "vite": "^6.0.0",
+    "wrangler": "^4.154.0"
   }
 }

@@ -5,7 +5,7 @@
 
 import './styles/base.css';
 import { toast } from './ui/toast.js';
-import { initInstallManager, triggerInstall, isStandaloneMode } from './ui/install-manager.js';
+import { initInstallManager, triggerInstall, isStandaloneMode, mountFloatingInstallBanner } from './ui/install-manager.js';
 import { db, requestPersistentStorage } from './core/db.js';
 import auth from './core/auth.js';
 import driveSync from './core/drive-sync.js';
@@ -513,9 +513,10 @@ async function initApp() {
             <span id="lf-account-name" class="hide-xs" style="font-size:var(--fs-xs);font-weight:600;">تسجيل الدخول</span>
           </button>
 
-          <button id="pwa-install-btn" class="btn primary sm" style="display:none;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            تثبيت
+          <!-- PWA Install Button (Always visible on mobile/browser unless standalone) -->
+          <button id="pwa-install-btn" class="btn primary sm" aria-label="تثبيت التطبيق" title="تثبيت التطبيق على جهازك" style="display:none;gap:6px;padding:6px 12px;font-size:var(--fs-xs);font-weight:700;border-radius:var(--radius-s);background:linear-gradient(135deg, #0d9488, #0f766e);box-shadow:0 2px 8px rgba(13,148,136,0.3);color:#fff;cursor:pointer;">
+            <span>📲</span>
+            <span class="install-label">تثبيت التطبيق</span>
           </button>
         </div>
       </header>
@@ -612,21 +613,33 @@ async function initApp() {
     });
   }
 
-  // 7. PWA Install Manager Setup
+  // 7. PWA Install Manager Setup & Topbar Install Trigger
+  const installBtn = document.getElementById('pwa-install-btn');
+  if (installBtn) {
+    if (!isStandaloneMode()) {
+      installBtn.style.display = 'inline-flex';
+    } else {
+      installBtn.style.display = 'none';
+    }
+    installBtn.addEventListener('click', () => {
+      triggerInstall();
+    });
+  }
+
   initInstallManager({
     onStateChange: (state) => {
-      const installBtn = document.getElementById('pwa-install-btn');
-      if (state === 'standalone') {
-        if (installBtn) installBtn.style.display = 'none';
-      } else if (state === 'prompt-ready' || state === 'ios-guide') {
-        if (installBtn) installBtn.style.display = 'inline-flex';
+      if (installBtn) {
+        if (state === 'standalone') {
+          installBtn.style.display = 'none';
+        } else {
+          installBtn.style.display = 'inline-flex';
+        }
       }
     }
   });
 
-  document.getElementById('pwa-install-btn').addEventListener('click', () => {
-    triggerInstall();
-  });
+  // Mount floating mobile install banner (automatically guarded against standalone)
+  mountFloatingInstallBanner();
 
   // 8. Listen to Hash Routing
   window.addEventListener('hashchange', handleHashChange);

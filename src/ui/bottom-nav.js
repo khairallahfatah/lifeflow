@@ -6,6 +6,7 @@
 
 import { openCommandPalette } from './command-palette.js';
 import { openSyncModal, openAudioCenterModal } from './sync-indicator.js';
+import { isStandaloneMode, triggerInstall } from './install-manager.js';
 import { toast } from './toast.js';
 
 let activeView = 'dashboard';
@@ -105,7 +106,7 @@ export function openMoreDrawer() {
         <div style="width:44px;height:5px;border-radius:3px;background:var(--border-strong);"></div>
       </div>
 
-      <div class="row between" style="margin-bottom:16px;align-items:center;">
+      <div class="row between" style="margin-bottom:14px;align-items:center;">
         <div class="row" style="gap:10px;align-items:center;">
           <div class="logo-badge" style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg, #0d9488, #0f766e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;">🗂️</div>
           <div>
@@ -115,6 +116,22 @@ export function openMoreDrawer() {
         </div>
         <button class="btn ghost sm" id="drawer-close" style="padding:4px 10px;border-radius:50%;font-size:16px;">✕</button>
       </div>
+
+      ${!isStandaloneMode() ? `
+        <!-- Prominent Install Option at Top of Drawer -->
+        <div class="card install-drawer-card" style="margin-bottom:16px;padding:12px 14px;background:linear-gradient(135deg, rgba(13,148,136,0.12), rgba(20,184,166,0.06));border:1.5px solid var(--accent);border-radius:var(--radius-m);box-shadow:0 4px 12px rgba(13,148,136,0.1);">
+          <div class="row between" style="align-items:center;">
+            <div class="row" style="gap:10px;align-items:center;">
+              <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg, #0d9488, #0f766e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(13,148,136,0.3);flex-shrink:0;">📲</div>
+              <div>
+                <div class="strong" style="font-size:var(--fs-s);color:var(--text);">تثبيت LifeFlow على الهاتف</div>
+                <div class="muted" style="font-size:11px;">يعمل كتطبيق أصلي في وضع عدم الاتصال (Offline)</div>
+              </div>
+            </div>
+            <button class="btn primary sm" id="btn-drawer-install" style="font-weight:700;padding:7px 16px;border-radius:var(--radius-s);white-space:nowrap;cursor:pointer;flex-shrink:0;">تثبيت الآن</button>
+          </div>
+        </div>
+      ` : ''}
 
       <!-- Categories & Items Grid -->
       <div class="col" style="gap:20px;">
@@ -149,6 +166,14 @@ export function openMoreDrawer() {
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) close();
   });
+
+  const drawerInstallBtn = overlay.querySelector('#btn-drawer-install');
+  if (drawerInstallBtn) {
+    drawerInstallBtn.addEventListener('click', () => {
+      close();
+      triggerInstall();
+    });
+  }
 
   overlay.querySelectorAll('.drawer-item').forEach(el => {
     el.addEventListener('click', () => {
