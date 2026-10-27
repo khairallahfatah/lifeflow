@@ -403,7 +403,12 @@ export function mountSyncIndicator(parentEl) {
     </button>
   `;
 
-  parentEl.prepend(containerEl);
+  const installBtn = parentEl.querySelector('#pwa-install-btn');
+  if (installBtn) {
+    parentEl.insertBefore(containerEl, installBtn);
+  } else {
+    parentEl.prepend(containerEl);
+  }
 
   // Attach Click Handlers
   containerEl.querySelector('#lf-bell-btn').addEventListener('click', openAudioCenterModal);

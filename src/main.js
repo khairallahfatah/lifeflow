@@ -492,7 +492,7 @@ async function initApp() {
       <header class="topbar">
         <div class="brand-wrapper">
           <div class="logo-badge" style="cursor:pointer;" id="brand-home-btn">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
           </div>
           <div style="cursor:pointer;" id="brand-title-btn">
             <h1 class="brand-title">LifeFlow</h1>
@@ -503,20 +503,21 @@ async function initApp() {
         <!-- Topbar Controls (Search Icon + Sync Indicator + Bell + Install) -->
         <div class="row" id="topbar-controls">
           <!-- Mobile & Desktop Command Palette Trigger -->
-          <button id="lf-search-btn" class="btn ghost sm" aria-label="البحث والأوامر" title="بحث سريع (Ctrl+K)" style="padding:7px 10px;border-radius:var(--radius-s);">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <button id="lf-search-btn" class="btn ghost sm" aria-label="البحث والأوامر" title="بحث سريع (Ctrl+K)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           </button>
 
-          <!-- Account & Login Button -->
-          <button id="lf-account-btn" class="btn ghost sm" aria-label="تسجيل الدخول وإدارة الحساب" title="تسجيل الدخول وإدارة الحساب" style="padding:6px 10px;border-radius:var(--radius-s);gap:6px;">
+          <!-- PWA Install Button (Always visible on mobile & desktop browsers unless standalone) -->
+          <button id="pwa-install-btn" class="btn primary sm pwa-topbar-btn" aria-label="تثبيت التطبيق" title="تثبيت التطبيق على جهازك">
+            <span class="pwa-btn-icon">📲</span>
+            <span class="install-label-short">تثبيت</span>
+            <span class="install-label-full">تثبيت التطبيق</span>
+          </button>
+
+          <!-- Account & Login Button (Desktop / larger screens) -->
+          <button id="lf-account-btn" class="btn ghost sm hide-mobile-topbar" aria-label="تسجيل الدخول وإدارة الحساب" title="تسجيل الدخول وإدارة الحساب">
             <span id="lf-account-icon">👤</span>
             <span id="lf-account-name" class="hide-xs" style="font-size:var(--fs-xs);font-weight:600;">تسجيل الدخول</span>
-          </button>
-
-          <!-- PWA Install Button (Always visible on mobile/browser unless standalone) -->
-          <button id="pwa-install-btn" class="btn primary sm" aria-label="تثبيت التطبيق" title="تثبيت التطبيق على جهازك" style="display:none;gap:6px;padding:6px 12px;font-size:var(--fs-xs);font-weight:700;border-radius:var(--radius-s);background:linear-gradient(135deg, #0d9488, #0f766e);box-shadow:0 2px 8px rgba(13,148,136,0.3);color:#fff;cursor:pointer;">
-            <span>📲</span>
-            <span class="install-label">تثبيت التطبيق</span>
           </button>
         </div>
       </header>
@@ -615,12 +616,15 @@ async function initApp() {
 
   // 7. PWA Install Manager Setup & Topbar Install Trigger
   const installBtn = document.getElementById('pwa-install-btn');
+  if (isStandaloneMode()) {
+    document.body.classList.add('is-standalone');
+    if (installBtn) installBtn.style.display = 'none';
+  } else {
+    document.body.classList.remove('is-standalone');
+    if (installBtn) installBtn.style.display = 'inline-flex';
+  }
+
   if (installBtn) {
-    if (!isStandaloneMode()) {
-      installBtn.style.display = 'inline-flex';
-    } else {
-      installBtn.style.display = 'none';
-    }
     installBtn.addEventListener('click', () => {
       triggerInstall();
     });
@@ -628,12 +632,12 @@ async function initApp() {
 
   initInstallManager({
     onStateChange: (state) => {
-      if (installBtn) {
-        if (state === 'standalone') {
-          installBtn.style.display = 'none';
-        } else {
-          installBtn.style.display = 'inline-flex';
-        }
+      if (state === 'standalone') {
+        document.body.classList.add('is-standalone');
+        if (installBtn) installBtn.style.display = 'none';
+      } else {
+        document.body.classList.remove('is-standalone');
+        if (installBtn) installBtn.style.display = 'inline-flex';
       }
     }
   });

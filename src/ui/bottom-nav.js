@@ -119,16 +119,16 @@ export function openMoreDrawer() {
 
       ${!isStandaloneMode() ? `
         <!-- Prominent Install Option at Top of Drawer -->
-        <div class="card install-drawer-card" style="margin-bottom:16px;padding:12px 14px;background:linear-gradient(135deg, rgba(13,148,136,0.12), rgba(20,184,166,0.06));border:1.5px solid var(--accent);border-radius:var(--radius-m);box-shadow:0 4px 12px rgba(13,148,136,0.1);">
+        <div class="card install-drawer-card" id="btn-drawer-install" style="margin-bottom:16px;padding:14px 16px;background:linear-gradient(135deg, rgba(13,148,136,0.18), rgba(20,184,166,0.08));border:1.5px solid var(--accent);border-radius:var(--radius-m);box-shadow:0 4px 14px rgba(13,148,136,0.18);cursor:pointer;transition:transform 0.15s ease;">
           <div class="row between" style="align-items:center;">
-            <div class="row" style="gap:10px;align-items:center;">
-              <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg, #0d9488, #0f766e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(13,148,136,0.3);flex-shrink:0;">📲</div>
+            <div class="row" style="gap:12px;align-items:center;">
+              <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg, #0d9488, #0f766e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 3px 10px rgba(13,148,136,0.35);flex-shrink:0;">📲</div>
               <div>
-                <div class="strong" style="font-size:var(--fs-s);color:var(--text);">تثبيت LifeFlow على الهاتف</div>
-                <div class="muted" style="font-size:11px;">يعمل كتطبيق أصلي في وضع عدم الاتصال (Offline)</div>
+                <div class="strong" style="font-size:var(--fs-s);color:var(--text);font-weight:800;">📲 تثبيت التطبيق على الشاشة الرئيسية</div>
+                <div class="muted" style="font-size:11.5px;margin-top:2px;">يعمل كتطبيق هاتف أصلي بدون نت ويدعم الإشعارات ⚡</div>
               </div>
             </div>
-            <button class="btn primary sm" id="btn-drawer-install" style="font-weight:700;padding:7px 16px;border-radius:var(--radius-s);white-space:nowrap;cursor:pointer;flex-shrink:0;">تثبيت الآن</button>
+            <div class="btn primary sm" style="font-weight:700;padding:6px 14px;border-radius:var(--radius-s);white-space:nowrap;pointer-events:none;background:linear-gradient(135deg, #0d9488, #059669);color:#fff;box-shadow:0 2px 8px rgba(13,148,136,0.3);">تثبيت ⊞</div>
           </div>
         </div>
       ` : ''}
